@@ -1,7 +1,7 @@
 `
 #	_Dockerfile:mariadb                                                
 
-FROM debian:10.11
+FROM debian:12.7
 
 RUN apt-get update && \
 	apt-get install -y \

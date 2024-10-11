@@ -1,8 +1,6 @@
-#//////////////////////////////////////////////////////////////////////#
-#	_Dockerfile:wordpress                                              #
-#//////////////////////////////////////////////////////////////////////#
+#	_Dockerfile:wordpress
 
-FROM debian:10.11
+FROM debian:12.7
 
 RUN apt-get update && apt-get -y install \
 	curl \
