@@ -1,23 +1,23 @@
-`
 #	_Dockerfile:mariadb                                                
 
-FROM debian:12.7
+FROM	debian:bullseye
 
-RUN apt-get update && \
-	apt-get install -y \
-	mariadb-server
+#This container will be listening on port 3306
+EXPOSE	3306
 
-COPY conf/mariadb.conf /etc/mysql/mariadb.conf.d/50-server.cnf
+#install mariadb-server. The flags are used to avoid installing unnecessary packages.
+#The rm -rf is used to clean the apt cache and avoid unnecessary files in the image.
+RUN		apt update && \
+		apt install -y --no-install-recommends --no-install-suggests \
+		mariadb-server && \
+		rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /var/run/mysqld \
-	&& chown -R mysql:mysql /var/run/mysqld \
-	&& chmod 777 /var/run/mysqld
+#Copy the configuration file to the container 
+COPY	conf/50-server.cnf /etc/mysql/mariadb.conf.d/
 
-EXPOSE 3306
+#Copy the setup script to the container
+COPY	tools/setup.sh /bin/
+RUN		chmod +x /bin/setup.sh
 
-COPY tools/mariadb.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/mariadb.sh
-
-RUN mysql_install_db
-
-ENTRYPOINT [ "/usr/local/bin/mariadb.sh" ]
+#Run the setup script and start the mariadb server
+CMD		["setup.sh", "mysqld_safe"]
