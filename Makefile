@@ -3,7 +3,7 @@
 NAME		= inception
 SRCS		= ./srcs
 COMPOSE		= $(SRCS)/docker-compose.yml
-HOST_URL	= wcorrea-.42.fr
+HOST_URL	= castorga.42.fr
 
 # Rules -----------------------------------------------------------------------
 
@@ -12,10 +12,10 @@ all: $(NAME)
 $(NAME): up
 
 # puts the url in the host files and starts the containers trough docker compose
-up: create_dir
-	@sudo hostsed add 127.0.0.1 $(HOST_URL) > $(HIDE) && echo " $(HOST_ADD)"
-	@docker compose -p $(NAME) -f $(COMPOSE) up --build || (echo " $(FAIL)" && exit 1)
-	@echo " $(UP)"
+# up: create_dir
+# 	@sudo hostsed add 127.0.0.1 $(HOST_URL) > $(HIDE) && echo " $(HOST_ADD)"
+# 	@docker compose -p $(NAME) -f $(COMPOSE) up --build || (echo " $(FAIL)" && exit 1)
+# 	@echo " $(UP)"
 
 # stops the containers through docker compose
 down:
@@ -27,8 +27,8 @@ create_dir:
 	@mkdir -p ~/data/wordpress_files
 
 # creates a backup of the data folder in the home directory
-backup:
-	@if [ -d ~/data ]; then sudo tar -czvf ~/data.tar.gz -C ~/ data/ > $(HIDE) && echo " $(BKP)" ; fi
+# backup:
+# 	@if [ -d ~/data ]; then sudo tar -czvf ~/data.tar.gz -C ~/ data/ > $(HIDE) && echo " $(BKP)" ; fi
 
 # stop the containers, remove the volumes and remove the containers
 clean:

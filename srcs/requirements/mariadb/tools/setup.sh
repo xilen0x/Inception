@@ -1,7 +1,7 @@
 #! /bin/bash
 
 #comentar o borrar luego estas variables
-# DB_NAME=thedatabase
+# DB_NAME=mydatabase
 # DB_USER=theuser
 # DB_PASSWORD=abc
 # DB_PASS_ROOT=123

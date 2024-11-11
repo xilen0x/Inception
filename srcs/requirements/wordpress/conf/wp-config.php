@@ -21,7 +21,7 @@
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
 
-// define( 'DB_NAME', getenv('thedatabase') );
+// define( 'DB_NAME', getenv('mydatabase') );
 // define( 'DB_USER', getenv('theuser') );
 // define( 'DB_PASSWORD', getenv('abc') );
 // define( 'DB_HOST', getenv('mariadb') );
