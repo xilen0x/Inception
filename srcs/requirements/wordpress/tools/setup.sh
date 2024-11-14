@@ -13,15 +13,15 @@
 
 # set -ex # print commands & exit on error (debug mode)
 
-# WP_URL=login.42.fr
-# WP_TITLE=Inception
-# WP_ADMIN_USER=theroot
-# WP_ADMIN_PASSWORD=123
-# WP_ADMIN_EMAIL=theroot@123.com
-# WP_USER=theuser
-# WP_PASSWORD=abc
-# WP_EMAIL=theuser@123.com
-# WP_ROLE=editor
+WP_URL=login.42.fr
+WP_TITLE=My_Inception_World
+WP_ADMIN_USER=theroot
+WP_ADMIN_PASSWORD=123
+WP_ADMIN_EMAIL=theroot@123.com
+WP_USER=theuser
+WP_PASSWORD=abc
+WP_EMAIL=theuser@123.com
+WP_ROLE=editor
 
 chown -R www-data:www-data /var/www/inception/
 
@@ -52,6 +52,6 @@ then
         --role=$WP_ROLE
 fi;
 
-wp --allow-root --path="/var/www/inception/" theme install raft --activate 
+wp --allow-root --path="/var/www/inception/" theme install hola --activate 
 
 exec $@
