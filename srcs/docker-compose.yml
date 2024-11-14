@@ -17,6 +17,11 @@ services:
     restart: on-failure
     env_file:
       - .env
+    healthcheck:
+    test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+    interval: 10s
+    timeout: 5s
+    retries: 5
 
   # wordpress container ------------------------------------------------------------
 
@@ -34,7 +39,8 @@ services:
     env_file:
       - .env
     depends_on:
-      - mariadb # Espera a que el servicio mariadb esté listo
+      mariadb: # Espera a que el servicio mariadb esté listo
+        condition: service_healthy
 
   # nginx container ------------------------------------------------------------
 
