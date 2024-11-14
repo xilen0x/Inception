@@ -1,10 +1,17 @@
 #! /bin/bash
 
+# this script run in the building container
+# it creates start the mariadb service and create the database and users according to the .env file
+# at the end, exec $@ run the next CMD in the Dockerfile.
+# In this case: "mysqld_safe" that restart the mariadb service
+
+# set -ex # print commands & exit on error (debug mode)
+
 #comentar o borrar luego estas variables
-# DB_NAME=mydatabase
-# DB_USER=theuser
-# DB_PASSWORD=abc
-# DB_PASS_ROOT=123
+DB_NAME=thedatabase
+DB_USER=theuser
+DB_PASSWORD=abc
+DB_PASS_ROOT=123
 
 service mariadb start
 
@@ -16,7 +23,7 @@ GRANT ALL PRIVILEGES ON $DB_NAME.* TO 'root'@'%' IDENTIFIED BY '$DB_PASS_ROOT';
 SET PASSWORD FOR 'root'@'localhost' = PASSWORD('$DB_PASS_ROOT');
 EOF
 
-sleep 3
+sleep 5
 
 service mariadb stop
 

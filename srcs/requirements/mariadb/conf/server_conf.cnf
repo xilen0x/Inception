@@ -20,4 +20,4 @@ collation-server		= utf8mb4_general_ci
 
 [mariadb]
 
-[mariadb-10.3]
+

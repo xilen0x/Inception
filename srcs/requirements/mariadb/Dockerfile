@@ -13,7 +13,7 @@ RUN		apt update && \
 		rm -rf /var/lib/apt/lists/*
 
 #Copy the configuration file to the container 
-COPY	conf/50-server.cnf /etc/mysql/mariadb.conf.d/
+COPY	conf/server_conf.cnf /etc/mysql/mariadb.conf.d/
 
 #Copy the setup script to the container
 COPY	tools/setup.sh /bin/
