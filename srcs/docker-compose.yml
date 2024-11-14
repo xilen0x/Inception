@@ -39,8 +39,7 @@ services:
     env_file:
       - .env
     depends_on:
-      mariadb: # Espera a que el servicio mariadb esté listo
-        condition: service_healthy
+      - mariadb # Espera a que el servicio mariadb esté listo
 
   # nginx container ------------------------------------------------------------
 
