@@ -1,11 +1,10 @@
-
 # Variables -------------------------------------------------------------------
 
 NAME        = inception
 SRCS        = ./srcs
 COMPOSE     = $(SRCS)/docker-compose.yml
 HOST_URL    = castorga.42.fr
-DATA_DIR    = ~/data
+DATA_DIR    = $(HOME)/data
 
 # Rules -----------------------------------------------------------------------
 
@@ -21,10 +20,11 @@ down:
 	@docker compose -p $(NAME) down
 	@echo "$(NAME) containers stopped"
 
-# Crea directorios de datos
+# Crea directorios de datos, asegurándose de que 'data' exista
 create_dir:
 	@mkdir -p $(DATA_DIR)/database
 	@mkdir -p $(DATA_DIR)/wordpress_files
+	@echo "Created directories: $(DATA_DIR)/database and $(DATA_DIR)/wordpress_files"
 
 clean:
 	@docker compose -p $(NAME) down -v
@@ -34,9 +34,6 @@ clean:
 # Limpia todo y reinicia los contenedores
 re: clean all
 
-# Phony -----------------------------------------------------------------------
-
-.PHONY: all up down create_dir clean re
 
 
 # # Variables -------------------------------------------------------------------

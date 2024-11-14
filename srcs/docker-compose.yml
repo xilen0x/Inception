@@ -5,13 +5,14 @@ services:
   # mariadb container ------------------------------------------------------------
 
   # this is the only container that no depend on the others, so its the first to be created
+  
   mariadb:
     container_name: mariadb
-    build: ./requirements/mariadb/
-    volumes:
-      - database:/var/lib/mysql/
+    build: ./requirements/mariadb/  # Directorio con el Dockerfile para MariaDB
+    volumes:  # Definición de volúmenes para MariaDB
+      - database:/var/lib/mysql/  # Monta el volumen 'database' en /var/lib/mysql/
     networks:
-      - all
+      - my42network # Conecta este servicio a la red 'my42network'
     init: true
     restart: on-failure
     env_file:
@@ -20,45 +21,47 @@ services:
   # wordpress container ------------------------------------------------------------
 
   # this is the second container to be created, it depends on the mariadb container
+  
   wordpress:
     container_name: wordpress
     build: ./requirements/wordpress/
     volumes:
       - wordpress_files:/var/www/inception/
     networks:
-      - all
+      - my42network
     init: true
-    restart: on-failure
+    restart: on-failure # Reinicia el contenedor si falla
     env_file:
       - .env
     depends_on:
-      - mariadb
+      - mariadb # Espera a que el servicio mariadb esté listo
 
   # nginx container ------------------------------------------------------------
 
   # this is the last container to be created, it depends on the wordpress container
   # it use args to pass the certificate and key path to the Dockerfile
   # in the build moment with show the private informations that where in the .env file
+
   nginx:
     container_name: nginx
     build:
       context: ./requirements/nginx/
       args:
-        CERT_FOLDER: ${CERT_FOLDER}
-        CERTIFICATE: ${CERTIFICATE}
-        KEY: ${KEY}
-        COUNTRY: ${COUNTRY}
-        STATE: ${STATE}
-        LOCALITY: ${LOCALITY}
-        ORGANIZATION: ${ORGANIZATION}
-        UNIT: ${UNIT}
-        COMMON_NAME: ${COMMON_NAME}
+        CERT_FOLDER: ${CERT_FOLDER}  # Carpeta de certificados
+        CERTIFICATE: ${CERTIFICATE}  # Archivo de certificado
+        KEY: ${KEY}  # Archivo de clave privada
+        COUNTRY: ${COUNTRY}  # País para el certificado
+        STATE: ${STATE}  # Estado/Provincia para el certificado
+        LOCALITY: ${LOCALITY}  # Localidad para el certificado
+        ORGANIZATION: ${ORGANIZATION}  # Organización para el certificado
+        UNIT: ${UNIT}  # Unidad organizativa para el certificado
+        COMMON_NAME: ${COMMON_NAME}  # Nombre común para el certificado
     ports:
-      - '443:443'
+      - '443:443' # Mapea el puerto 443 del host al 443 del contenedor
     volumes:
-      - wordpress_files:/var/www/inception/
+      - wordpress_files:/var/www/inception/ # Monta el volumen 'wordpress_files'
     networks:
-      - all
+      - my42network
     init: true
     restart: on-failure
     env_file:
@@ -71,30 +74,32 @@ services:
 # keeps the data shared between the containers
 # it acts like a shared hard drive between the containers and the host machine
 # device: where the data will be stored in the host machine
+
 volumes:
 
   # keeps the database
-  database:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ~/data/database
+  database:  # Volumen para la base de datos
+    driver: local  # Usa el driver local
+    driver_opts:  # Opciones del driver
+      type: none  # Tipo de montaje
+      o: bind  # Opción de montaje bind
+      device: ~/data/database  # Directorio en el host para los datos de la base de datos
 
   # keeps the wordpress files
-  wordpress_files:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ~/data/wordpress_files
+  wordpress_files:  # Volumen para los archivos de WordPress
+    driver: local  # Usa el driver local
+    driver_opts:  # Opciones del driver
+      type: none  # Tipo de montaje
+      o: bind  # Opción de montaje bind
+      device: ~/data/wordpress_files  # Directorio en el host para los archivos de WordPress
 
 # networks --------------------------------------------------------------------
 
 # this network is used to connect the containers
 # it acts like a virtual switch between the containers
-# all is the name of the network
+# my42network is the name of the network
 # bridge is the type of the network
-networks:
-  all:
-    driver: bridge
+
+networks:  # Definición de redes
+  my42network:  # Red llamada 'my42network'
+    driver: bridge  # Usa el driver de red bridge

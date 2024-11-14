@@ -19,15 +19,15 @@ RUN		apt update && apt install -y --no-install-recommends --no-install-suggests 
 		openssl && \
 		rm -rf /var/lib/apt/lists/*
 
-ARG		CERT_FOLDER=/etc/nginx/certs/
-ARG		CERTIFICATE=/etc/nginx/certs/certificate.crt
-ARG		KEY=/etc/nginx/certs/certificate.key
-ARG		COUNTRY=ES
-ARG		STATE=CAT
-ARG		LOCALITY=Barcelona
-ARG		ORGANIZATION=42
-ARG		UNIT=42
-ARG		COMMON_NAME=login.42.fr
+# ARG		CERT_FOLDER=/etc/nginx/certs/
+# ARG		CERTIFICATE=/etc/nginx/certs/certificate.crt
+# ARG		KEY=/etc/nginx/certs/certificate.key
+# ARG		COUNTRY=ES
+# ARG		STATE=CAT
+# ARG		LOCALITY=Barcelona
+# ARG		ORGANIZATION=42
+# ARG		UNIT=42
+# ARG		COMMON_NAME=login.42.fr
 
 ARG		CERT_FOLDER CERTIFICATE KEY COUNTRY STATE LOCALITY ORGANIZATION UNIT COMMON_NAME
 
