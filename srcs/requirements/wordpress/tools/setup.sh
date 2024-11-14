@@ -29,7 +29,7 @@ if [ ! -f "/var/www/inception/wp-config.php" ]; then
    mv /tmp/wp-config.php /var/www/inception/
 fi
 
-sleep 10
+sleep 20
 
 wp --allow-root --path="/var/www/inception/" core download || true
 
