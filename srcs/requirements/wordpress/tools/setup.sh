@@ -14,7 +14,7 @@
 # set -ex # print commands & exit on error (debug mode)
 
 # WP_URL=login.42.fr
-# WP_TITLE=My_Inception_World
+# WP_TITLE=Inception
 # WP_ADMIN_USER=theroot
 # WP_ADMIN_PASSWORD=123
 # WP_ADMIN_EMAIL=theroot@123.com
@@ -29,7 +29,7 @@ if [ ! -f "/var/www/inception/wp-config.php" ]; then
    mv /tmp/wp-config.php /var/www/inception/
 fi
 
-sleep 20
+sleep 10
 
 wp --allow-root --path="/var/www/inception/" core download || true
 
@@ -52,6 +52,6 @@ then
         --role=$WP_ROLE
 fi;
 
-wp --allow-root --path="/var/www/inception/" theme install hola --activate 
+wp --allow-root --path="/var/www/inception/" theme install raft --activate 
 
 exec $@
