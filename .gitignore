@@ -1,4 +1,6 @@
 conDetails
 en.subject.pdf
 .env
+srcs/.envtest
 ssh-key-2024-11-12.key
+otros_repos/

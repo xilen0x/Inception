@@ -7,7 +7,7 @@ EXPOSE	3306
 
 #install mariadb-server. The flags are used to avoid installing unnecessary packages.
 #The rm -rf is used to clean the apt cache and avoid unnecessary files in the image.
-RUN		apt update && \
+RUN		apt update -y && \
 		apt install -y --no-install-recommends --no-install-suggests \
 		mariadb-server && \
 		rm -rf /var/lib/apt/lists/*
@@ -20,4 +20,4 @@ COPY	tools/setup.sh /bin/
 RUN		chmod +x /bin/setup.sh
 
 #Run the setup script and start the mariadb server
-CMD		["setup.sh", "mysqld_safe"]
+CMD ["/bin/setup.sh", "mysqld_safe"]
