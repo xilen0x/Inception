@@ -1,0 +1,29 @@
+# Database settings
+DB_NAME=42db
+DB_USER=castorga
+DB_PASSWORD=123456
+DB_PASS_ROOT=123456
+DB_HOST=mariadb
+
+# Wordpress settings
+WP_URL=castorga.42.fr
+WP_TITLE=Inception_castorga
+WP_ADMIN_USER=toor
+WP_ADMIN_PASSWORD=123456
+WP_ADMIN_EMAIL=castorga@student.42barcelona.com
+WP_USER=castorga
+WP_PASSWORD=123456
+WP_EMAIL=castorga@student.42barcelona.com
+WP_ROLE=editor
+WP_FULL_URL=https://castorga.42.fr
+
+# SSL settings
+CERT_FOLDER=/etc/nginx/certs/
+CERTIFICATE=/etc/nginx/certs/certificate.crt
+KEY=/etc/nginx/certs/certificate.key
+COUNTRY=ES
+STATE=CAT
+LOCALITY=Barcelona
+ORGANIZATION=42
+UNIT=42
+COMMON_NAME=castorga.42.fr
