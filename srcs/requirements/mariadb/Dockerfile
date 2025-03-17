@@ -1,12 +1,9 @@
 # Dockerfile mariadb                            
 
-#	_Dockerfile:mariadb                                                
-
 FROM	debian:bullseye
 
 #This container will be listening on port 3306
 EXPOSE	3306
-
 
 #install mariadb-server. The flags are used to avoid installing unnecessary packages.
 #The rm -rf is used to clean the apt cache and avoid unnecessary files in the image.
@@ -14,7 +11,7 @@ RUN	apt update && \
 	apt install -y --no-install-recommends --no-install-suggests \
 	mariadb-server && \
 	apt clean && \
-    	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+   	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN mkdir -p /var/run/mysqld && chown mysql:mysql /var/run/mysqld
 

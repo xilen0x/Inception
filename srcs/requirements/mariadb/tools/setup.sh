@@ -7,6 +7,12 @@
 
 # set -ex # print commands & exit on error (debug mode)
 
+# check para ver si las variables de entorno estan definidas
+if [ -z "$DB_NAME" ] || [ -z "$DB_USER" ] || [ -z "$DB_PASSWORD" ] || [ -z "$DB_PASS_ROOT" ]; then
+    echo "Error: una o más variables de entorno faltan!"
+    exit 1
+fi
+
 service mariadb start
 
 mariadb -v -u root << EOF
@@ -21,4 +27,4 @@ sleep 5
 
 service mariadb stop
 
-exec $@
+exec "$@"
