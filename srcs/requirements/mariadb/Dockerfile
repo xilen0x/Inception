@@ -1,3 +1,5 @@
+# Dockerfile mariadb                            
+
 #	_Dockerfile:mariadb                                                
 
 FROM	debian:bullseye
@@ -24,4 +26,4 @@ RUN		chmod +x /bin/setup.sh
 
 #Run the setup script and start the mariadb server
 ENTRYPOINT ["/bin/setup.sh"]
-CMD ["mysqld_safe"]
+CMD ["mysqld_safe"] 
