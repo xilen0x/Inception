@@ -12,7 +12,7 @@ services:
     volumes:  # Definición de volúmenes para MariaDB
       - database:/var/lib/mysql/  # Monta el volumen 'database' en /var/lib/mysql/
     networks:
-      - my42network # Conecta este servicio a la red 'my42network'
+      - my42networkcastorga # Conecta este servicio a la red 'my42networkcastorga'
     init: true
     restart: on-failure
     env_file:
@@ -29,7 +29,7 @@ services:
     volumes:
       - wordpress_files:/var/www/inception/
     networks:
-      - my42network
+      - my42networkcastorga
     init: true
     restart: on-failure # Reinicia el contenedor si falla
     env_file:
@@ -62,7 +62,7 @@ services:
     volumes:
       - wordpress_files:/var/www/inception/ # Monta el volumen 'wordpress_files'
     networks:
-      - my42network
+      - my42networkcastorga
     init: true
     restart: on-failure
     env_file:
@@ -98,9 +98,9 @@ volumes:
 
 # this network is used to connect the containers
 # it acts like a virtual switch between the containers
-# my42network is the name of the network
+# my42networkcastorga is the name of the network
 # bridge is the type of the network
 
 networks:  # Definición de redes
-  my42network:  # Red llamada 'my42network'
+  my42networkcastorga:  # Red llamada 'my42networkcastorga'
     driver: bridge  # Usa el driver de red bridge
