@@ -13,23 +13,28 @@
 
 # set -ex # print commands & exit on error (debug mode)
 
-# WP_URL=login.42.fr
-# WP_TITLE=Inception
-# WP_ADMIN_USER=theroot
-# WP_ADMIN_PASSWORD=123
-# WP_ADMIN_EMAIL=theroot@123.com
-# WP_USER=theuser
-# WP_PASSWORD=abc
-# WP_EMAIL=theuser@123.com
-# WP_ROLE=editor
-
 chown -R www-data:www-data /var/www/inception/
 
 if [ ! -f "/var/www/inception/wp-config.php" ]; then
    mv /tmp/wp-config.php /var/www/inception/
 fi
 
-sleep 10
+# Esperar a que MariaDB esté listo para aceptar conexiones
+echo "Esperando a que la base de datos esté disponible..."
+max_attempts=30
+attempt=0
+while ! mysqladmin ping -h"$DB_HOST" -u"$DB_USER" -p"$DB_PASSWORD" --silent && [ $attempt -lt $max_attempts ]; do
+    attempt=$((attempt+1))
+    echo "Intento $attempt de $max_attempts, esperando 5 segundos..."
+    sleep 5
+done
+
+if [ $attempt -eq $max_attempts ]; then
+    echo "No se pudo conectar a la base de datos después de $max_attempts intentos"
+    exit 1
+fi
+
+echo "Base de datos disponible, continuando con la instalación..."
 
 wp --allow-root --path="/var/www/inception/" core download || true
 
