@@ -21,6 +21,7 @@ RUN		apt update && apt install --no-install-recommends --no-install-suggests -y 
 		php7.4-mysql \
 		wget \
 		tar && \
+		mariadb-client && \
 		rm -rf /var/lib/apt/lists/*
 
 RUN		service php7.4-fpm stop
