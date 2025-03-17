@@ -54,3 +54,31 @@ Se desplegarán los siguientes servicios dentro de contenedores:
     | (Base de datos)  |
     +------------------+
 ```
+
+# Estructura
+```
+├── Makefile
+├── README.md
+└── srcs
+    ├── docker-compose.yml
+    └── requirements
+        ├── mariadb
+        │   ├── conf
+        │   │   └── server_conf.cnf
+        │   ├── Dockerfile
+        │   └── tools
+        │       └── setup.sh
+        ├── nginx
+        │   ├── conf
+        │   │   ├── nginx.conf
+        │   │   └── server.conf
+        │   └── Dockerfile
+        └── wordpress
+            ├── conf
+            │   ├── wp-config.php
+            │   └── www.conf
+            ├── Dockerfile
+            └── tools
+                └── setup.sh
+
+```
