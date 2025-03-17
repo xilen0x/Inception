@@ -1,21 +1,19 @@
 #! /bin/bash
 
-# this script run in the building container
-# it creates start the mariadb service and create the database and users according to the .env file
-# at the end, exec $@ run the next CMD in the Dockerfile.
-# In this case: "mysqld_safe" that restart the mariadb service
-
-# set -ex # print commands & exit on error (debug mode)
-
-# check para ver si las variables de entorno estan definidas
 if [ -z "$DB_NAME" ] || [ -z "$DB_USER" ] || [ -z "$DB_PASSWORD" ] || [ -z "$DB_PASS_ROOT" ]; then
     echo "Error: una o más variables de entorno faltan!"
     exit 1
 fi
 
-service mariadb start
+# Iniciar MariaDB y configurar la base de datos solo si no está ya configurada
+if [ ! -d "/var/lib/mysql/$DB_NAME" ]; then
+    # Inicializar el directorio de datos si es necesario
+    mysql_install_db --datadir=/var/lib/mysql
 
-mariadb -v -u root << EOF
+    service mariadb start
+
+    # Configurar la base de datos
+    mariadb -v -u root << EOF
 CREATE DATABASE IF NOT EXISTS $DB_NAME;
 CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_PASSWORD';
 GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%' IDENTIFIED BY '$DB_PASSWORD';
@@ -23,8 +21,8 @@ GRANT ALL PRIVILEGES ON $DB_NAME.* TO 'root'@'%' IDENTIFIED BY '$DB_PASS_ROOT';
 SET PASSWORD FOR 'root'@'localhost' = PASSWORD('$DB_PASS_ROOT');
 EOF
 
-sleep 5
+    service mariadb stop
+fi
 
-service mariadb stop
-
+# Ejecutar el comando principal (mysqld_safe)
 exec "$@"
