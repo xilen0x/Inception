@@ -21,7 +21,7 @@ fi
 
 # Esperar a que MariaDB esté listo para aceptar conexiones
 echo "Esperando a que la base de datos esté disponible..."
-max_attempts=30
+max_attempts=10
 attempt=0
 while ! mysqladmin ping -h"$DB_HOST" -u"$DB_USER" -p"$DB_PASSWORD" --silent && [ $attempt -lt $max_attempts ]; do
     attempt=$((attempt+1))
