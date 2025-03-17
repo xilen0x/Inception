@@ -28,7 +28,6 @@
 // define( 'WP_HOME', getenv('https://login.42.fr') );
 // define( 'WP_SITEURL', getenv('https://login.42.fr') );
 
-
 define( 'DB_NAME', getenv('DB_NAME') );
 define( 'DB_USER', getenv('DB_USER') );
 define( 'DB_PASSWORD', getenv('DB_PASSWORD') );
