@@ -1,7 +1,9 @@
-all:
-	sudo mkdir -p /home/castorga/data/wordpress
-	sudo mkdir -p /home/castorga/data/mariadb
+all: create_dirs
 	@docker compose -f ./srcs/docker-compose.yml up -d --build
+
+create_dirs:
+	@mkdir -p ./srcs/data/wordpress
+	@mkdir -p ./srcs/data/mariadb
 
 up: all
 
@@ -19,9 +21,10 @@ clean:
 	@docker system prune -a --volumes -f || true;
 
 fclean: clean
-	@rm -rf /home/castorga/data/wordpress/* || true;
-	@rm -rf /home/castorga/data/mariadb/* || true;
-	
+	@rm -rf ./data/wordpress/* || true;
+	@rm -rf ./data/mariadb/* || true;
+
 re: down all
 
-.PHONY: all up down status clean fclean re
+.PHONY: all create_dirs up down status clean fclean re
+

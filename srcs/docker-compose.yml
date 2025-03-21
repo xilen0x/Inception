@@ -42,14 +42,14 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/castorga/data/mariadb
+      device: ./data/mariadb
       o: bind
 
   wordpress_vol:
     driver: local
     driver_opts:
       type: none
-      device: /home/castorga/data/wordpress
+      device: ./data/wordpress
       o: bind
 
 networks:
