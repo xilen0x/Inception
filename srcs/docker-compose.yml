@@ -1,106 +1,58 @@
-# Docker Compose is a tool for defining and running multi-container applications.
-
 services:
-
-  # mariadb container ------------------------------------------------------------
-
-  # this is the only container that no depend on the others, so its the first to be created
-  
-  mariadb:
-    container_name: mariadb
-    build: ./requirements/mariadb/  # Directorio con el Dockerfile para MariaDB
-    volumes:  # Definición de volúmenes para MariaDB
-      - database:/var/lib/mysql/  # Monta el volumen 'database' en /var/lib/mysql/
-    networks:
-      - my42networkcastorga # Conecta este servicio a la red 'my42networkcastorga'
-    init: true
-    restart: on-failure
-    env_file:
-      - .env
-    
-
-  # wordpress container ------------------------------------------------------------
-
-  # this is the second container to be created, it depends on the mariadb container
-  
-  wordpress:
-    container_name: wordpress
-    build: ./requirements/wordpress/
-    volumes:
-      - wordpress_files:/var/www/inception/
-    networks:
-      - my42networkcastorga
-    init: true
-    restart: on-failure # Reinicia el contenedor si falla
-    env_file:
-      - .env
-    depends_on:
-      - mariadb # Espera a que el servicio mariadb esté listo
-
-  # nginx container ------------------------------------------------------------
-
-  # this is the last container to be created, it depends on the wordpress container
-  # it use args to pass the certificate and key path to the Dockerfile
-  # in the build moment with show the private informations that where in the .env file
-
   nginx:
     container_name: nginx
-    build:
-      context: ./requirements/nginx/
-      args:
-        CERT_FOLDER: ${CERT_FOLDER}  # Carpeta de certificados
-        CERTIFICATE: ${CERTIFICATE}  # Archivo de certificado
-        KEY: ${KEY}  # Archivo de clave privada
-        COUNTRY: ${COUNTRY}  # País para el certificado
-        STATE: ${STATE}  # Estado/Provincia para el certificado
-        LOCALITY: ${LOCALITY}  # Localidad para el certificado
-        ORGANIZATION: ${ORGANIZATION}  # Organización para el certificado
-        UNIT: ${UNIT}  # Unidad organizativa para el certificado
-        COMMON_NAME: ${COMMON_NAME}  # Nombre común para el certificado
-    ports:
-      - '443:443' # Mapea el puerto 443 del host al 443 del contenedor
+    build: ./requirements/nginx
+    image: nginx
+    restart: always
     volumes:
-      - wordpress_files:/var/www/inception/ # Monta el volumen 'wordpress_files'
-    networks:
-      - my42networkcastorga
-    init: true
-    restart: on-failure
+      - wordpress_vol:/var/www/html
+    ports:
+      - "443:443"
     env_file:
       - .env
-    depends_on:
-      - wordpress
+    networks:
+      - networkcastorga
 
-# volumes --------------------------------------------------------------------
+  wordpress:
+    container_name: wordpress
+    build: ./requirements/wordpress
+    image: wordpress
+    restart: always
+    volumes:
+      - wordpress_vol:/var/www/html
+    env_file:
+      - .env
+    networks:
+      - networkcastorga
 
-# keeps the data shared between the containers
-# it acts like a shared hard drive between the containers and the host machine
-# device: where the data will be stored in the host machine
+  mariadb:
+    container_name: mariadb
+    build: ./requirements/mariadb
+    image: mariadb
+    restart: always
+    volumes:
+      - mariadb_vol:/var/lib/mysql
+    env_file:
+      - .env
+    networks:
+      - networkcastorga
 
 volumes:
+  mariadb_vol:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/castorga/data/mariadb
+      o: bind
 
-  # keeps the database
-  database:  # Volumen para la base de datos
-    driver: local  # Usa el driver local
-    driver_opts:  # Opciones del driver
-      type: none  # Tipo de montaje
-      o: bind  # Opción de montaje bind
-      device: ~/data/database  # Directorio en el host para los datos de la base de datos
+  wordpress_vol:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/castorga/data/wordpress
+      o: bind
 
-  # keeps the wordpress files
-  wordpress_files:  # Volumen para los archivos de WordPress
-    driver: local  # Usa el driver local
-    driver_opts:  # Opciones del driver
-      type: none  # Tipo de montaje
-      o: bind  # Opción de montaje bind
-      device: ~/data/wordpress_files  # Directorio en el host para los archivos de WordPress
-
-# networks --------------------------------------------------------------------
-
-# this network is used to connect the containers
-# it acts like a virtual switch between the containers
-# my42networkcastorga is the name of the network
-# bridge is the type of the network
-
-networks:  # Definición de redes
-  my42networkcastorga:  # Red llamada 'my42networkcastorga'
-    driver: bridge  # Usa el driver de red bridge
+networks:
+  networkcastorga:
+    driver: bridge
+    name: networkcastorga

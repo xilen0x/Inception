@@ -1,27 +1,19 @@
-# Dockerfile mariadb                            
+FROM debian:bullseye
 
-FROM	debian:bullseye
+RUN apt-get update -y && \ 
+	apt-get upgrade -y && \
+	apt-get install mariadb-server -y && \
+	rm -rf /var/lib/apt/lists/*
 
-#This container will be listening on port 3306
-EXPOSE	3306
+EXPOSE 3306
 
-#install mariadb-server. The flags are used to avoid installing unnecessary packages.
-#The rm -rf is used to clean the apt cache and avoid unnecessary files in the image.
-RUN	apt update && \
-	apt install -y --no-install-recommends --no-install-suggests \
-	mariadb-server && \
-	apt clean && \
-   	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+COPY ./conf/default.conf /etc/mysql/mariadb.conf.d/50-server.cnf
+COPY --chmod=755 ./tools/init.sh /usr/local/bin/db_init.sh
+COPY --chmod=755 ./tools/init.sql /usr/local/bin/.db_init.sql
 
-RUN mkdir -p /var/run/mysqld && chown mysql:mysql /var/run/mysqld
+RUN mkdir -p /var/run/mysqld \
+	&& chown -R mysql:mysql /var/run/mysqld
 
-#Copy the configuration file to the container 
-COPY	conf/server_conf.cnf /etc/mysql/mariadb.conf.d/
+ENTRYPOINT ["/usr/local/bin/db_init.sh"]
 
-#Copy the setup script to the container
-COPY	tools/setup.sh /bin/
-RUN	chmod +x /bin/setup.sh
-
-#Run the setup script and start the mariadb server
-ENTRYPOINT ["/bin/setup.sh"]
-CMD ["mysqld_safe"] 
+CMD ["mysqld"]
