@@ -1,3 +1,14 @@
+#************************************************************************** */
+#                                                                           */
+#                                                       :::      ::::::::   */
+#  docker-compose.yml                                 :+:      :+:    :+:   */
+#                                                   +:+ +:+         +:+     */
+#  By:castorga <castorga@student.42barcelona.com> +#+  +:+       +#+        */
+#                                               +#+#+#+#+#+   +#+           */
+#  Created: 2025/03/10 17:30:00 by castorga          #+#    #+#             */
+#  Updated: 2025/03/21 17:30:00 by castorga         ###   ########.fr       */
+#                                                                           */
+#************************************************************************** */
 services:
   nginx:
     container_name: nginx
@@ -5,7 +16,7 @@ services:
     image: nginx
     restart: always
     volumes:
-      - wordpress_vol:/var/www/html
+      - wp_castor_vol:/var/www/html
     ports:
       - "443:443"
     env_file:
@@ -19,7 +30,7 @@ services:
     image: wordpress
     restart: always
     volumes:
-      - wordpress_vol:/var/www/html
+      - wp_castor_vol:/var/www/html
     env_file:
       - .env
     networks:
@@ -31,21 +42,21 @@ services:
     image: mariadb
     restart: always
     volumes:
-      - mariadb_vol:/var/lib/mysql
+      - db_castor_vol:/var/lib/mysql
     env_file:
       - .env
     networks:
       - networkcastorga
 
 volumes:
-  mariadb_vol:
+  db_castor_vol:
     driver: local
     driver_opts:
       type: none
       device: /home/${USER}/data/mariadb
       o: bind
 
-  wordpress_vol:
+  wp_castor_vol:
     driver: local
     driver_opts:
       type: none

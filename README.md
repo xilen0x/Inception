@@ -82,3 +82,43 @@ Se desplegarán los siguientes servicios dentro de contenedores:
                 └── setup.sh
 
 ```
+make all
+
+    Crea los directorios necesarios (create_dirs).
+    Levanta los contenedores con docker compose up -d --build.
+    Muestra un mensaje con la URL de acceso.
+
+make clean
+
+    Detiene y elimina todos los contenedores.
+    Elimina todas las imágenes de Docker.
+    Borra todos los volúmenes de Docker.
+    Ejecuta docker system prune -a --volumes -f para limpiar recursos innecesarios.
+
+make create_dirs
+
+    Crea las carpetas /home/${USER}/data/wordpress y /home/${USER}/data/mariadb si no existen.
+
+make down
+
+    Detiene y elimina los contenedores definidos en docker-compose.yml.
+
+make fclean
+
+    Ejecuta make clean para eliminar contenedores, imágenes y volúmenes.
+    Además, borra los datos de las carpetas /home/${USER}/data/wordpress y /home/${USER}/data/mariadb.
+
+make re
+
+    Reinicia el entorno eliminando los contenedores (down) y volviendo a construirlos (all).
+
+make status
+
+    Muestra el estado de los contenedores (docker ps -a).
+    Muestra el uso del sistema (docker system df).
+    Lista los volúmenes (docker volume ls).
+    Lista las redes de Docker (docker network ls).
+
+make up
+
+    Alias de make all, simplemente inicia los contenedores y crea directorios si es necesario.
