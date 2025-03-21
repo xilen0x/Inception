@@ -42,14 +42,14 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: ./data/mariadb
+      device: /home/${USER}/data/mariadb
       o: bind
 
   wordpress_vol:
     driver: local
     driver_opts:
       type: none
-      device: ./data/wordpress
+      device: /home/${USER}/data/wordpress
       o: bind
 
 networks:
