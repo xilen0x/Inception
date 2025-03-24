@@ -82,6 +82,8 @@ Se desplegarán los siguientes servicios dentro de contenedores:
                 └── setup.sh
 
 ```
+
+## Comandos make
 make all
 
     Crea los directorios necesarios (create_dirs).
@@ -94,10 +96,6 @@ make clean
     Elimina todas las imágenes de Docker.
     Borra todos los volúmenes de Docker.
     Ejecuta docker system prune -a --volumes -f para limpiar recursos innecesarios.
-
-make create_dirs
-
-    Crea las carpetas /home/${USER}/data/wordpress y /home/${USER}/data/mariadb si no existen.
 
 make down
 
@@ -119,6 +117,3 @@ make status
     Lista los volúmenes (docker volume ls).
     Lista las redes de Docker (docker network ls).
 
-make up
-
-    Alias de make all, simplemente inicia los contenedores y crea directorios si es necesario.

@@ -5,7 +5,7 @@ all: create_dirs
 	@echo "Access your application at: https://castorga.42.fr\n"
 	@echo "To check the system status run: make status\n"
 
-create_dirs:
+crea`te_dirs:
 	mkdir -p /home/${USER}/data/wordpress
 	mkdir -p /home/${USER}/data/mariadb
 
