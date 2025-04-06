@@ -10,7 +10,7 @@
   
 4.   Almacenamiento persistente: Usar volúmenes para preservar datos incluso después de detener los contenedores.
 
-## 🚀 Servicios a Implementar
+##  Servicios a Implementar
 
 Se desplegarán los siguientes servicios dentro de contenedores:
 
